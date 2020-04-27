@@ -1,0 +1,14 @@
+{
+  "name": "hackney-authorizer",
+  "version": "1.0.1",
+  "description": "A service to authorise using jwt secret",
+  "main": "index.js",
+  "dependencies": {
+    "cookie": "^0.4.0",
+    "dotenv": "^8.2.0",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "scripts": {
+    "test": "npm test"
+  }
+}
