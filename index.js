@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const cookie = require('cookie');
 
-exports = function (config) { 
+module.exports = function (config) { 
   const jwt_secret = config.jwtsecret;
   const allowedGroups = config.allowedGroups;
 
