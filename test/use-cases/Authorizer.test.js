@@ -2,7 +2,7 @@ const Authorizer = require('../../lib/use-cases/Authorizer');
 const jwt = require('jsonwebtoken');
 
 describe('Authorizer', function() {
-  it('retuns "Unauthorized" if the request does not have the right secrets', async function() {
+  it('returns "Unauthorized" if the request does not have the right secrets', async function() {
     const jwtSecret = 'secret';
     const allowedGroups = ['Friends'];
     const authorizer = new Authorizer({
