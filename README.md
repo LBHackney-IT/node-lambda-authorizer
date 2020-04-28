@@ -25,19 +25,19 @@ Add the package into your `package.json` file:
 
 ```
   "dependencies": {
-    "authorizer": "LBHackney-IT/node-lambda-authorizer.git#master"
+    "node-lambda-authorizer": "LBHackney-IT/node-lambda-authorizer.git#master"
   },
 ```
 
 Initialize the service with your secret and user groups in authorizer file e.g: `authorizer.js`
 
 ```
-const authoriser = require('authorizer'){
+const authoriser = require('node-lambda-authorizer'){
     jwtSecret: process.env.JWTSecret,
     allowedGroups: process.env.ALLOWEDGROUP.split(",")
 };
 
-exports.handler = authoriser();
+exports.handler = authoriser;
 ```
 
 ## CI
