@@ -1,7 +1,7 @@
 const userInAllowedGroup = require('../../lib/use-cases/UserInAllowedGroup');
 
 describe('userInAllowedGroup', function() {
-  it('retuns false if user is not in the allowed group', async function() {
+  it('returns false if user is not in the allowed group', async function() {
     const result = userInAllowedGroup(['not allowed'], ['allowed', 'group']);
 
     expect(result).toBe(false);
@@ -13,7 +13,7 @@ describe('userInAllowedGroup', function() {
     expect(result).toBe(false);
   });
 
-  it('retuns true if user is in the allowed group', async function() {
+  it('returns true if user is in the allowed group', async function() {
     const result = userInAllowedGroup(['allowed'], ['allowed', 'group']);
 
     expect(result).toBe(true);

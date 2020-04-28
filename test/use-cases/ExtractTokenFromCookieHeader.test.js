@@ -1,13 +1,13 @@
 const extractTokenFromCookieHeader = require('../../lib/use-cases/ExtractTokenFromCookieHeader');
 
 describe('ExtractTokenFromCookieHeader', function() {
-  it('retuns null if headers.Authorization not found', async function() {
+  it('returns null if headers.Authorization not found', async function() {
     const result = extractTokenFromCookieHeader({});
 
     expect(result).toBe(null);
   });
 
-  it('retuns the token when hackney token exists in the cookies', async function() {
+  it('returns the token when hackney token exists in the cookies', async function() {
     const result = extractTokenFromCookieHeader({
       headers: { Cookie: 'hackneyToken=THISISATOKEN1234' }
     });
