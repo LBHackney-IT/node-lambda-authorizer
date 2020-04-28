@@ -1,4 +1,4 @@
-const Authorizer = require("./lib/use-cases/Authorizer");
+const Authorizer = require("../../lib/use-cases/Authorizer");
 
 module.exports = function(config) {
   const authorizer = new Authorizer({
