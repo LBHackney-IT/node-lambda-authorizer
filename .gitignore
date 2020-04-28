@@ -1,1 +1,10 @@
+# package directories
 *node_modules
+.DS_Store
+*.env
+jspm_packages
+/.vscode
+*coverage
+*npm-debug.log*
+*tmp
+/authorizer/event.json

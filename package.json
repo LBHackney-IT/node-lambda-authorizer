@@ -1,13 +1,22 @@
 {
-  "name": "hackney-authorizer",
-  "version": "1.0.2",
-  "description": "A service to authorise using jwt secret",
+  "name": "node-lambda-authorizer",
+  "version": "1.0.3",
+  "description": "An authorizer lambda library to use in serverless node.js projects",
   "main": "index.js",
   "dependencies": {
     "cookie": "^0.4.0",
     "jsonwebtoken": "^8.5.1"
   },
+  "devDependencies": {
+    "jest": "^24.9.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.18.2"
+  },
   "scripts": {
-    "test": "npm test"
+    "test": "jest",
+    "test-coverage": "jest --coverage",
+    "lint": "eslint --fix --ext js . && echo 'Lint complete.'"
   }
 }
