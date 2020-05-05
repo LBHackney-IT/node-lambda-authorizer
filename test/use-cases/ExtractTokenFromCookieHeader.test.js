@@ -14,4 +14,12 @@ describe('ExtractTokenFromCookieHeader', function() {
 
     expect(result).toBe('THISISATOKEN1234');
   });
+
+  it('can find the cookie case-insensitive', async function() {
+    const result = extractTokenFromCookieHeader({
+      headers: { cookie: 'hackneyToken=THISISATOKEN1234' }
+    });
+
+    expect(result).toBe('THISISATOKEN1234');
+  });
 });
