@@ -1,6 +1,6 @@
 {
   "name": "node-lambda-authorizer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An authorizer lambda library to use in serverless node.js projects",
   "main": "index.js",
   "dependencies": {
