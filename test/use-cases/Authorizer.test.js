@@ -14,6 +14,28 @@ describe('Authorizer', function() {
     expect(result).toBe('Unauthorized');
   });
 
+  it('returns "not allowed" if the token does not include the allowed group', async function() {
+    const jwtSecret = 'secret';
+    const allowedGroups = ['Friends'];
+    const authorizer = new Authorizer({
+      jwtSecret: jwtSecret,
+      allowedGroups: allowedGroups
+    });
+
+    const token = jwt.sign(
+      { token: 'super-secret-token', groups: ['Not in the group'] },
+      jwtSecret
+    );
+
+    var result = await authorizer.execute({
+      type: 'TOKEN',
+      headers: { Authorization: `Bearer ${token}` },
+      methodArn: 'arn:aws:execute-api:{dummy}'
+    });
+
+    expect(result).toBe('Not Allowed');
+  });
+
   it('allows a request that have the right secrets', async function() {
     const jwtSecret = 'secret';
     const allowedGroups = ['Friends'];
