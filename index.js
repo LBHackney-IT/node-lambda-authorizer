@@ -1,4 +1,5 @@
 const Authorizer = require('./lib/use-cases/Authorizer');
+const GetTokenPayload = require('./lib/use-cases/GetTokenPayload');
 
 module.exports = function(config) {
   const authorizer = new Authorizer({
@@ -6,7 +7,13 @@ module.exports = function(config) {
     allowedGroups: config.allowedGroups
   });
 
-  return async event => {
+  const getTokenPayload = new GetTokenPayload({
+    jwtSecret: config.jwtSecret
+  });
+
+  const handler = async event => {
     return authorizer.execute(event);
   };
+
+  return { handler, getTokenPayload };
 };
