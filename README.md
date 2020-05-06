@@ -37,7 +37,7 @@ const authoriser = require('node-lambda-authorizer'){
     allowedGroups: process.env.ALLOWEDGROUP.split(",")
 };
 
-exports.handler = authoriser;
+exports.handler = authoriser.handler;
 ```
 
 ## CI
