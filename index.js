@@ -2,7 +2,8 @@ const Authorizer = require('./lib/use-cases/Authorizer');
 const GetTokenPayload = require('./lib/use-cases/GetTokenPayload');
 
 module.exports = function(config) {
-  console.log('INIT AUTHORIZER');
+  if (config.debug) console.log('INIT AUTHORIZER');
+
   const authorizer = Authorizer({
     jwtSecret: config.jwtSecret,
     allowedGroups: config.allowedGroups,
@@ -14,10 +15,7 @@ module.exports = function(config) {
   });
 
   const handler = async event => {
-    if (config.debug) {
-      console.log('HANDLER EVENT: ');
-      console.log(event);
-    }
+    if (config.debug) console.log('EXECUTING HANDLER');
     return authorizer.execute(event);
   };
 

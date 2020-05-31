@@ -2,19 +2,29 @@ const Authorizer = require('../../lib/use-cases/Authorizer');
 const jwt = require('jsonwebtoken');
 
 describe('Authorizer', function() {
-  it('returns "Unauthorized" if the request does not have the right secrets', async function() {
+  it('returns a deny if the request does not have the right secrets', async function() {
     const jwtSecret = 'secret';
     const allowedGroups = ['Friends'];
     const authorizer = Authorizer({
       jwtSecret: jwtSecret,
       allowedGroups: allowedGroups
     });
-    var result = await authorizer.execute({});
+    var result = await authorizer.execute({
+      type: 'TOKEN',
+      headers: { Authorization: 'Bearer TOKEN' },
+      methodArn: 'arn:aws:execute-api:{dummy}'
+    });
 
-    expect(result).toBe('Unauthorized');
+    expect(result.policyDocument.Statement).toEqual([
+      {
+        Action: 'execute-api:Invoke',
+        Effect: 'Deny',
+        Resource: 'arn:aws:execute-api:{dummy}'
+      }
+    ]);
   });
 
-  it('returns "not allowed" if the token does not include the allowed group', async function() {
+  it('returns a deny if the token does not include the allowed group', async function() {
     const jwtSecret = 'secret';
     const allowedGroups = ['Friends'];
     const authorizer = Authorizer({
@@ -33,7 +43,13 @@ describe('Authorizer', function() {
       methodArn: 'arn:aws:execute-api:{dummy}'
     });
 
-    expect(result).toBe('Not Allowed');
+    expect(result.policyDocument.Statement).toEqual([
+      {
+        Action: 'execute-api:Invoke',
+        Effect: 'Deny',
+        Resource: 'arn:aws:execute-api:{dummy}'
+      }
+    ]);
   });
 
   it('allows a request that have the right secrets', async function() {
