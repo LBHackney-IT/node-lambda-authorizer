@@ -5,7 +5,7 @@ describe('Authorizer', function() {
   it('returns "Unauthorized" if the request does not have the right secrets', async function() {
     const jwtSecret = 'secret';
     const allowedGroups = ['Friends'];
-    const authorizer = new Authorizer({
+    const authorizer = Authorizer({
       jwtSecret: jwtSecret,
       allowedGroups: allowedGroups
     });
@@ -17,7 +17,7 @@ describe('Authorizer', function() {
   it('returns "not allowed" if the token does not include the allowed group', async function() {
     const jwtSecret = 'secret';
     const allowedGroups = ['Friends'];
-    const authorizer = new Authorizer({
+    const authorizer = Authorizer({
       jwtSecret: jwtSecret,
       allowedGroups: allowedGroups
     });
@@ -39,7 +39,7 @@ describe('Authorizer', function() {
   it('allows a request that have the right secrets', async function() {
     const jwtSecret = 'secret';
     const allowedGroups = ['Friends'];
-    const authorizer = new Authorizer({
+    const authorizer = Authorizer({
       jwtSecret: jwtSecret,
       allowedGroups: allowedGroups
     });
