@@ -7,6 +7,7 @@ module.exports = function(config) {
   const authorizer = Authorizer({
     jwtSecret: config.jwtSecret,
     allowedGroups: config.allowedGroups,
+    customAuthorize: config.customAuthorize,
     isDebug: config.debug === 'true'
   });
 

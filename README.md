@@ -40,6 +40,23 @@ const authorizer = require('node-lambda-authorizer')({
 exports.handler = authorizer.handler;
 ```
 
+### Custom Authorization
+
+Optionally you can pass in your own custom authorisation function. It should take a decodedToken and the authorisationEvent as parameters. e.g.
+
+```
+const authoriser = require('node-lambda-authorizer'){
+    jwtSecret: process.env.JWTSecret,
+    customAuthorize: (decodedToken, authorizerEvent) => {
+        if ([CUSTOM CONDITION]) return true;
+        return false;
+    }
+};
+
+exports.handler = authoriser.handler;
+```
+
+
 ## CI
 
 - Tests are automated using [GitHub Actions](https://github.com/features/actions) on pull requests

@@ -9,7 +9,8 @@ describe('Authorizer', function() {
       jwtSecret: jwtSecret,
       allowedGroups: allowedGroups
     });
-    var result = await authorizer.execute({
+
+    const result = await authorizer.execute({
       type: 'TOKEN',
       headers: { Authorization: 'Bearer TOKEN' },
       methodArn: 'arn:aws:execute-api:{dummy}'
@@ -37,7 +38,7 @@ describe('Authorizer', function() {
       jwtSecret
     );
 
-    var result = await authorizer.execute({
+    const result = await authorizer.execute({
       type: 'TOKEN',
       headers: { Authorization: `Bearer ${token}` },
       methodArn: 'arn:aws:execute-api:{dummy}'
@@ -65,7 +66,7 @@ describe('Authorizer', function() {
       jwtSecret
     );
 
-    var result = await authorizer.execute({
+    const result = await authorizer.execute({
       type: 'TOKEN',
       headers: { Authorization: `Bearer ${token}` },
       methodArn: 'arn:aws:execute-api:{dummy}'
@@ -75,6 +76,103 @@ describe('Authorizer', function() {
       {
         Action: 'execute-api:Invoke',
         Effect: 'Allow',
+        Resource: 'arn:aws:execute-api:{dummy}'
+      }
+    ]);
+  });
+
+  it('allows a request that satisfies the custom authorisation function', async function() {
+    const jwtSecret = 'secret';
+    const authorizer = Authorizer({
+      jwtSecret: jwtSecret,
+      customAuthorize: (decodedToken, authorizerEvent) => {
+        try {
+          if (authorizerEvent && decodedToken.groups.includes('Friends'))
+            return true;
+        } catch (err) {
+          console.log(err);
+        }
+        return false;
+      }
+    });
+
+    const token = jwt.sign(
+      { token: 'super-secret-token', groups: ['Friends'] },
+      jwtSecret
+    );
+
+    const result = await authorizer.execute({
+      type: 'TOKEN',
+      headers: { Authorization: `Bearer ${token}` },
+      methodArn: 'arn:aws:execute-api:{dummy}'
+    });
+
+    expect(result.policyDocument.Statement).toEqual([
+      {
+        Action: 'execute-api:Invoke',
+        Effect: 'Allow',
+        Resource: 'arn:aws:execute-api:{dummy}'
+      }
+    ]);
+  });
+
+  it('allows a request that satisfies the custom authorisation function with no token', async function() {
+    const jwtSecret = 'secret';
+    const authorizer = Authorizer({
+      jwtSecret: jwtSecret,
+      customAuthorize: (decodedToken, authorizerEvent) => {
+        try {
+          if (authorizerEvent && !decodedToken) return true;
+        } catch (err) {
+          console.log(err);
+        }
+        return false;
+      }
+    });
+
+    const result = await authorizer.execute({
+      methodArn: 'arn:aws:execute-api:{dummy}'
+    });
+
+    expect(result.policyDocument.Statement).toEqual([
+      {
+        Action: 'execute-api:Invoke',
+        Effect: 'Allow',
+        Resource: 'arn:aws:execute-api:{dummy}'
+      }
+    ]);
+  });
+
+  it('rejects a request that does not satisfy the custom authorisation function', async function() {
+    const jwtSecret = 'secret';
+    const authorizer = Authorizer({
+      jwtSecret: jwtSecret,
+      customAuthorize: (decodedToken, authorizerEvent) => {
+        try {
+          if (authorizerEvent && decodedToken.groups.includes('Friends'))
+            return true;
+        } catch (err) {
+          console.log(err);
+        }
+        return false;
+      }
+    });
+
+    const token = jwt.sign(
+      { token: 'super-secret-token', groups: ['Enemies'] },
+      jwtSecret
+    );
+
+    const result = await authorizer.execute({
+      type: 'TOKEN',
+      headers: { Authorization: `Bearer ${token}` },
+      methodArn: 'arn:aws:execute-api:{dummy}'
+    });
+
+    expect(result.policyDocument.Statement).toEqual([
+      {
+        Action: 'execute-api:Invoke',
+        Effect: 'Deny',
         Resource: 'arn:aws:execute-api:{dummy}'
       }
     ]);
