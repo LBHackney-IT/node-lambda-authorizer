@@ -4,7 +4,8 @@ const GetTokenPayload = require('./lib/use-cases/GetTokenPayload');
 module.exports = function(config) {
   const authorizer = new Authorizer({
     jwtSecret: config.jwtSecret,
-    allowedGroups: config.allowedGroups
+    allowedGroups: config.allowedGroups,
+    customAuthorize: config.customAuthorize
   });
 
   const getTokenPayload = new GetTokenPayload({
