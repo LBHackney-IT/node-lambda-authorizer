@@ -32,12 +32,12 @@ Add the package into your `package.json` file:
 Initialize the service with your secret and user groups in authorizer file e.g: `authorizer.js`
 
 ```
-const authoriser = require('node-lambda-authorizer'){
+const authorizer = require('node-lambda-authorizer')({
     jwtSecret: process.env.JWTSecret,
     allowedGroups: process.env.ALLOWEDGROUP.split(",")
-};
+});
 
-exports.handler = authoriser.handler;
+exports.handler = authorizer.handler;
 ```
 
 ### Custom Authorization

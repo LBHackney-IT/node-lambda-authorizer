@@ -2,17 +2,21 @@ const Authorizer = require('./lib/use-cases/Authorizer');
 const GetTokenPayload = require('./lib/use-cases/GetTokenPayload');
 
 module.exports = function(config) {
-  const authorizer = new Authorizer({
+  if (config.debug) console.log('INIT AUTHORIZER');
+
+  const authorizer = Authorizer({
     jwtSecret: config.jwtSecret,
     allowedGroups: config.allowedGroups,
-    customAuthorize: config.customAuthorize
+    customAuthorize: config.customAuthorize,
+    isDebug: config.debug === 'true'
   });
 
-  const getTokenPayload = new GetTokenPayload({
+  const getTokenPayload = GetTokenPayload({
     jwtSecret: config.jwtSecret
   });
 
   const handler = async event => {
+    if (config.debug) console.log('EXECUTING HANDLER');
     return authorizer.execute(event);
   };
 

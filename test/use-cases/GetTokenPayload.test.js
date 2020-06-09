@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 describe('GetTokenPayload', function() {
   it('returns null if the request does not have the right secrets', async function() {
     const jwtSecret = 'secret';
-    const getTokenPayload = new GetTokenPayload({
+    const getTokenPayload = GetTokenPayload({
       jwtSecret: jwtSecret
     });
     expect(getTokenPayload({})).toBe(false);
@@ -12,7 +12,7 @@ describe('GetTokenPayload', function() {
 
   it('returns the decoded token if the request have the right secrets', async function() {
     const jwtSecret = 'secret';
-    const getTokenPayload = new GetTokenPayload({
+    const getTokenPayload = GetTokenPayload({
       jwtSecret: jwtSecret
     });
 
